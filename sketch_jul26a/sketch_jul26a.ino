@@ -24,10 +24,13 @@ void loop()
     // Read from 0~1023
     // 0V ~ 0
     // 5V ~ 1023
-    // Read after Write 127(half time 5v, half time 0v) ~ ...0,0,0,967,966,667...
+    // Read after Write 127(half time 5v, half time 0v) ~ ...0,0,0,967,966,967...
     V2 = analogRead(readPin);
+
+    Serial.print("Analog Read: ");
     Serial.println(V2);
     V3 = (5./1023.) * V2;
+    Serial.print("Voltage: ");
     Serial.println(V3);
     delay(delayTime);
 }
