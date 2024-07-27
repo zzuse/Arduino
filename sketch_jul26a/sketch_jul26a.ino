@@ -6,7 +6,8 @@ float V3 = 0;
 int bright = 127;
 int delayTime = 500;
 int numBlinks;
-String msg = "How Many Blinks do you want: ";
+String msg = "How many blinks do you want? ";
+String msg2 = "What the color of LED? ";
 
 void setup()
 {
@@ -36,14 +37,32 @@ void loop()
     Serial.println(V3);
     delay(delayTime);
 
-    Serial.print(msg);
+    Serial.println(msg);
+    while (Serial.available() > 0) {
+      Serial.read();
+    }
     while(Serial.available() == 0) {
     }
     numBlinks = Serial.parseInt();
-    for (int j = 0; j < numBlinks; j++) {
-      analogWrite(greenPin, 255);
-      delay(delayTime);
-      analogWrite(greenPin, 0);
-      delay(delayTime);
+    Serial.println(msg2);
+    while (Serial.available() > 0) {
+      Serial.read();
+    }
+    String color = "";
+    while(Serial.available() == 0) {
+    }
+    color = Serial.readString();
+    Serial.print("Your number is: ");
+    Serial.println(numBlinks);
+    Serial.print("Your color is: ");
+    Serial.println(color);
+    if(color.startsWith("green")) {
+      Serial.println("color green match");
+      for (int j = 0; j < numBlinks; j=j+1) {
+        analogWrite(greenPin, 127);
+        delay(delayTime);
+        analogWrite(greenPin, 0);
+        delay(delayTime);
+      }
     }
 }
