@@ -5,6 +5,8 @@ int V2 = 0;
 float V3 = 0;
 int bright = 127;
 int delayTime = 500;
+int numBlinks;
+String msg = "How Many Blinks do you want: ";
 
 void setup()
 {
@@ -33,4 +35,15 @@ void loop()
     Serial.print("Voltage: ");
     Serial.println(V3);
     delay(delayTime);
+
+    Serial.print(msg);
+    while(Serial.available() == 0) {
+    }
+    numBlinks = Serial.parseInt();
+    for (int j = 0; j < numBlinks; j++) {
+      analogWrite(greenPin, 255);
+      delay(delayTime);
+      analogWrite(greenPin, 0);
+      delay(delayTime);
+    }
 }
