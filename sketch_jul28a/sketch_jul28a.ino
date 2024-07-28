@@ -22,7 +22,7 @@ void loop()
     // put your main code here, to run repeatedly:
     lightVal = analogRead(lightPin);
     Serial.println(lightVal);
-    // liner for angle to lightVal
+    // linear for angle 0-180 degree to lightVal
     servoPos = (-16. / 63.) * lightVal + 16. * 780. / 63.;
     myservo.write(servoPos);
 
