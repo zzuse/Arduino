@@ -5,6 +5,7 @@ int dt = 1000;
 
 byte LED1s = 0xFF;
 byte LED2s = 0b01010101;
+byte myByte = 0xF0;
 
 void setup() {
   // put your setup code here, to run once:
@@ -21,10 +22,17 @@ void loop() {
   digitalWrite(latchPin, LOW);
   shiftOut(dataPin, clockPin, LSBFIRST, LED1s);
   digitalWrite(latchPin, HIGH);
-
   delay(dt);
+
   digitalWrite(latchPin, LOW);
   shiftOut(dataPin, clockPin, LSBFIRST, LED2s);
   digitalWrite(latchPin, HIGH);
+  delay(dt);
+
+  // shift circular
+  digitalWrite(latchPin, LOW);
+  shiftOut(dataPin, clockPin, LSBFIRST, myByte);
+  digitalWrite(latchPin, HIGH);
+  myByte = myByte / 128 + myByte * 2;
   delay(dt);
 }
