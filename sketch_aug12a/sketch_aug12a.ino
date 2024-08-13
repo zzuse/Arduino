@@ -37,8 +37,13 @@ void loop()
     // put your main code here, to run repeatedly:
     unsigned char i;
     for (i = 0; i < 10; i++) {
-        for (int j = 0; j < 8; j++) {
-            digitalWrite(seg_a, table[i][j]);
-        }
+        digitalWrite(seg_a, table[i][7]);
+        digitalWrite(seg_b, table[i][6]);
+        digitalWrite(seg_c, table[i][5]);
+        digitalWrite(seg_d, table[i][4]);
+        digitalWrite(seg_e, table[i][3]);
+        digitalWrite(seg_f, table[i][2]);
+        digitalWrite(seg_g, table[i][1]);
+        digitalWrite(seg_h, table[i][0]);
     }
 }

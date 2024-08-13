@@ -1,0 +1,109 @@
+
+int seg_a = 2;
+int seg_b = 3;
+int seg_c = 4;
+int seg_d = 5;
+int seg_e = 6;
+int seg_f = 7;
+int seg_g = 8;
+int seg_h = 9;
+
+#define COM1 10
+#define COM2 11
+#define COM3 12
+#define COM4 13
+
+unsigned char table[10][8] = {{0, 0, 1, 1, 1, 1, 1, 1},  // 0
+                              {0, 0, 0, 0, 0, 1, 1, 0},  // 1
+                              {0, 1, 0, 1, 1, 0, 1, 1},  // 2
+                              {0, 1, 0, 0, 1, 1, 1, 1},  // 3
+                              {0, 1, 1, 0, 0, 1, 1, 0},  // 4
+                              {0, 1, 1, 0, 1, 1, 0, 1},  // 5
+                              {0, 1, 1, 1, 1, 1, 0, 1},  // 6
+                              {0, 0, 0, 0, 0, 1, 1, 1},  // 7
+                              {0, 1, 1, 1, 1, 1, 1, 1},  // 8
+                              {0, 1, 1, 0, 1, 1, 1, 1}}; // 9
+void setup()
+{
+    // put your setup code here, to run once:
+    pinMode(seg_a, OUTPUT);
+    pinMode(seg_b, OUTPUT);
+    pinMode(seg_c, OUTPUT);
+    pinMode(seg_d, OUTPUT);
+    pinMode(seg_e, OUTPUT);
+    pinMode(seg_f, OUTPUT);
+    pinMode(seg_g, OUTPUT);
+    pinMode(seg_h, OUTPUT);
+
+    pinMode(COM1, OUTPUT);
+    pinMode(COM2, OUTPUT);
+    pinMode(COM3, OUTPUT);
+    pinMode(COM4, OUTPUT);
+}
+
+void Display(unsigned char com, unsigned char num)
+{
+    digitalWrite(seg_a, LOW);
+    digitalWrite(seg_b, LOW);
+    digitalWrite(seg_c, LOW);
+    digitalWrite(seg_d, LOW);
+    digitalWrite(seg_e, LOW);
+    digitalWrite(seg_f, LOW);
+    digitalWrite(seg_g, LOW);
+    digitalWrite(seg_h, LOW);
+
+    switch (com) {
+        case 1:
+            digitalWrite(COM1, LOW);
+            digitalWrite(COM2, HIGH);
+            digitalWrite(COM3, HIGH);
+            digitalWrite(COM4, HIGH);
+            break;
+        case 2:
+            digitalWrite(COM1, HIGH);
+            digitalWrite(COM2, LOW);
+            digitalWrite(COM3, HIGH);
+            digitalWrite(COM4, HIGH);
+            break;
+        case 3:
+            digitalWrite(COM1, HIGH);
+            digitalWrite(COM2, HIGH);
+            digitalWrite(COM3, LOW);
+            digitalWrite(COM4, HIGH);
+            break;
+        case 4:
+            digitalWrite(COM1, HIGH);
+            digitalWrite(COM2, HIGH);
+            digitalWrite(COM3, HIGH);
+            digitalWrite(COM4, LOW);
+            break;
+        default:
+            break;
+    }
+
+    int i = num;
+    digitalWrite(seg_a, table[i][7]);
+    digitalWrite(seg_b, table[i][6]);
+    digitalWrite(seg_c, table[i][5]);
+    digitalWrite(seg_d, table[i][4]);
+    digitalWrite(seg_e, table[i][3]);
+    digitalWrite(seg_f, table[i][2]);
+    digitalWrite(seg_g, table[i][1]);
+    digitalWrite(seg_h, table[i][0]);
+}
+
+void loop()
+{
+    // put your main code here, to run repeatedly:
+    Display(1, 1);
+    delay(3);
+
+    Display(2, 2);
+    delay(3);
+
+    Display(3, 3);
+    delay(3);
+
+    Display(4, 4);
+    delay(3);
+}
