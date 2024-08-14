@@ -14,7 +14,8 @@ int seg_h = 9;
 #define COM4 13
 
 int buttonPin = 0;
-int showNum = 0;
+int hourNum = 0;
+int minuteNum = 0;
 int buttonOld = 1;
 int buttonNew = 0;
 
@@ -98,35 +99,46 @@ void Display(unsigned char com, unsigned char num)
     digitalWrite(seg_f, table[i][2]);
     digitalWrite(seg_g, table[i][1]);
     digitalWrite(seg_h, table[i][0]);
+    if (com == 2) {
+        // a blinking dot, millis() Returns the number of milliseconds passed since
+        //  the Arduino board began running the current program
+        digitalWrite(seg_h, millis() / 1000 % 2 ? HIGH : LOW);
+    }
 }
 
 int scanButton()
 {
     buttonNew = digitalRead(buttonPin);
-    // Serial.println(buttonNew);
+    // Serial.println(millis());
     // button always HIGH, only LOW when push it.
     // only catch LOW to HIGH, means only catch release it.
     if (buttonOld == 0 && buttonNew == 1) {
-        showNum++;
-        if (showNum > 9999) showNum = 0;
+        hourNum = hourNum + 100;
+        if (hourNum > 2300) hourNum = 0;
     }
     buttonOld = buttonNew;
+    minuteNum = millis() / 60000 % 60;
+    if (minuteNum == 59 && millis() / 1000 % 60 == 0) {
+        delay(1000);
+        hourNum = hourNum + 100;
+        if (hourNum > 2300) hourNum = 0;
+    }
     delay(5);
 }
 
 void loop()
 {
     // put your main code here, to run repeatedly:
-    Display(1, showNum / 1000);
+    Display(1, hourNum / 1000);
     delay(3);
 
-    Display(2, showNum % 1000 / 100);
+    Display(2, hourNum % 1000 / 100);
     delay(3);
 
-    Display(3, showNum % 100 / 10);
+    Display(3, minuteNum % 100 / 10);
     delay(3);
 
-    Display(4, showNum % 10);
+    Display(4, minuteNum % 10);
     delay(3);
 
     scanButton();
