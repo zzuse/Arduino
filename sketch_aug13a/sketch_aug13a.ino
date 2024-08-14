@@ -13,6 +13,11 @@ int seg_h = 9;
 #define COM3 12
 #define COM4 13
 
+int buttonPin = 0;
+int showNum = 0;
+int buttonOld = 1;
+int buttonNew = 0;
+
 unsigned char table[10][8] = {{0, 0, 1, 1, 1, 1, 1, 1},  // 0
                               {0, 0, 0, 0, 0, 1, 1, 0},  // 1
                               {0, 1, 0, 1, 1, 0, 1, 1},  // 2
@@ -26,6 +31,7 @@ unsigned char table[10][8] = {{0, 0, 1, 1, 1, 1, 1, 1},  // 0
 void setup()
 {
     // put your setup code here, to run once:
+    // Serial.begin(9600);
     pinMode(seg_a, OUTPUT);
     pinMode(seg_b, OUTPUT);
     pinMode(seg_c, OUTPUT);
@@ -39,6 +45,8 @@ void setup()
     pinMode(COM2, OUTPUT);
     pinMode(COM3, OUTPUT);
     pinMode(COM4, OUTPUT);
+
+    pinMode(buttonPin, INPUT);
 }
 
 void Display(unsigned char com, unsigned char num)
@@ -92,18 +100,34 @@ void Display(unsigned char com, unsigned char num)
     digitalWrite(seg_h, table[i][0]);
 }
 
+int scanButton()
+{
+    buttonNew = digitalRead(buttonPin);
+    // Serial.println(buttonNew);
+    // button always HIGH, only LOW when push it.
+    // only catch LOW to HIGH, means only catch release it.
+    if (buttonOld == 0 && buttonNew == 1) {
+        showNum++;
+        if (showNum > 9999) showNum = 0;
+    }
+    buttonOld = buttonNew;
+    delay(5);
+}
+
 void loop()
 {
     // put your main code here, to run repeatedly:
-    Display(1, 1);
+    Display(1, showNum / 1000);
     delay(3);
 
-    Display(2, 2);
+    Display(2, showNum % 1000 / 100);
     delay(3);
 
-    Display(3, 3);
+    Display(3, showNum % 100 / 10);
     delay(3);
 
-    Display(4, 4);
+    Display(4, showNum % 10);
     delay(3);
+
+    scanButton();
 }
