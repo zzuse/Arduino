@@ -118,7 +118,8 @@ int scanButton()
     }
     buttonOld = buttonNew;
     minuteNum = millis() / 60000 % 60;
-    if (minuteNum == 59 && millis() / 1000 % 60 == 0) {
+    // 59 min and 59 seconcds will plus one hour
+    if (minuteNum == 59 && millis() / 1000 % 60 == 59) {
         delay(1000);
         hourNum = hourNum + 100;
         if (hourNum > 2300) hourNum = 0;
